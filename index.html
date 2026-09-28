@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PythonWare: язык для тех, кто хочет делать больше</title>
+    <style>
+        /* ===== Базовые стили эпохи 2000–2005 ===== */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Tahoma, Verdana, 'MS Sans Serif', sans-serif;
+            font-size: 12px;
+            background-color: #C0C0C0;
+            color: #000000;
+            line-height: 1.4;
+            padding: 8px;
+        }
+
+        a {
+            color: #0000FF;
+            text-decoration: underline;
+        }
+
+        a:visited {
+            color: #800080;
+        }
+
+        img {
+            image-rendering: pixelated;
+        }
+
+        /* ===== Общая обёртка (табличная вёрстка) ===== */
+        .page {
+            max-width: 780px;
+            margin: 0 auto;
+            background-color: #D4D0C8;
+            border-top: 2px solid #FFFFFF;
+            border-left: 2px solid #FFFFFF;
+            border-right: 2px solid #404040;
+            border-bottom: 2px solid #404040;
+        }
+
+        /* ===== Служебная строка (как в браузерах 2000-х) ===== */
+        .titlebar {
+            background: linear-gradient(to bottom, #000080, #1084D0);
+            color: #FFFFFF;
+            font-size: 11px;
+            font-weight: bold;
+            padding: 3px 6px;
+            letter-spacing: 0.3px;
+        }
+
+        .titlebar .tb-buttons {
+            float: right;
+            font-family: Tahoma, sans-serif;
+            letter-spacing: 0;
+        }
+
+        .titlebar .tb-buttons span {
+            display: inline-block;
+            width: 16px;
+            height: 14px;
+            background: #D4D0C8;
+            color: #000000;
+            border-top: 1px solid #FFFFFF;
+            border-left: 1px solid #FFFFFF;
+            border-right: 1px solid #404040;
+            border-bottom: 1px solid #404040;
+            text-align: center;
+            line-height: 13px;
+            font-size: 9px;
+            font-weight: bold;
+            margin-left: 2px;
+        }
+
+        /* ===== Шапка ===== */
+        .header {
+            background-color: #000080;
+            color: #FFFFFF;
+            padding: 10px 14px;
+            border-bottom: 2px inset #FFFFFF;
+        }
+
+        .header-top {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 6px;
+        }
+
+        .header-top .logo-box {
+            background-color: #FFFFFF;
+            padding: 4px 8px;
+            border-top: 2px solid #FFFFFF;
+            border-left: 2px solid #FFFFFF;
+            border-right: 2px solid #404040;
+            border-bottom: 2px solid #404040;
+            flex: 0 0 auto;
+        }
+
+        .header-top .logo-box img {
+            height: 34px;
+            display: block;
+        }
+
+        .header h1 {
+            font-size: 18px;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+        }
+
+        .header .subtitle {
+            font-size: 13px;
+            color: #C0C0C0;
+            margin-top: 2px;
+        }
+
+        .header .date-line {
+            font-size: 11px;
+            color: #FFFF80;
+            font-style: italic;
+            margin-top: 4px;
+        }
+
+        .header .joke {
+            font-size: 11px;
+            color: #ffffff;
+            background-color: #000060;
+            border: 1px solid #8080FF;
+            padding: 4px 8px;
+            margin-top: 8px;
+        }
+
+        .header .joke strong {
+            color: #FFFF80;
+        }
+
+        /* ===== Рекламный баннер 468×60 ===== */
+        .banner-row {
+            background-color: #C0C0C0;
+            text-align: center;
+            padding: 8px 6px;
+            border-bottom: 1px solid #808080;
+        }
+
+        .banner468 {
+            display: inline-block;
+            width: 540px;
+            max-width: 100%;
+            height: 60px;
+            background: #FFFFFF;
+            border-top: 2px solid #808080;
+            border-left: 2px solid #808080;
+            border-right: 2px solid #FFFFFF;
+            border-bottom: 2px solid #FFFFFF;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .banner468 .b-inner {
+            background: linear-gradient(to bottom, #000080 0%, #1084D0 55%, #FFFFFF 55%, #C0C0C0 100%);
+            height: 100%;
+            padding: 6px 10px;
+            text-align: left;
+        }
+
+        .banner468 .b-title {
+            color: #FFFF00;
+            font-size: 16px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .banner468 .b-sub {
+            color: #000000;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        .banner468 .b-price {
+            position: absolute;
+            right: 8px;
+            bottom: 6px;
+            background-color: #FF0000;
+            color: #FFFFFF;
+            font-size: 12px;
+            font-weight: bold;
+            padding: 2px 8px;
+            border: 1px solid #FFFFFF;
+            transform: rotate(-4deg);
+        }
+
+        /* ===== Бегущая строка (новости) ===== */
+        .newsbar {
+            background-color: #000000;
+            color: #00FF00;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            padding: 3px 0;
+            border-bottom: 1px solid #808080;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        /* ===== Навигация ===== */
+        .navbar {
+            background: linear-gradient(to bottom, #F0F0F0, #C0C0C0);
+            border-bottom: 2px inset #FFFFFF;
+            padding: 4px 8px;
+            font-size: 11px;
+            text-align: center;
+        }
+
+        .navbar a {
+            color: #000080;
+            font-weight: bold;
+            margin: 0 8px;
+            white-space: nowrap;
+        }
+
+        .navbar span.sep {
+            color: #808080;
+        }
+
+        /* ===== Основной контент ===== */
+        .content {
+            padding: 10px 14px;
+        }
+
+        .block {
+            margin-bottom: 14px;
+            border-top: 2px solid #FFFFFF;
+            border-left: 2px solid #FFFFFF;
+            border-right: 2px solid #404040;
+            border-bottom: 2px solid #404040;
+            background-color: #D4D0C8;
+            padding: 8px 10px;
+        }
+
+        .block h2 {
+            font-size: 14px;
+            color: #000080;
+            background: linear-gradient(to bottom, #FFFFFF, #C0C0C0);
+            border-top: 1px solid #FFFFFF;
+            border-left: 1px solid #FFFFFF;
+            border-right: 1px solid #808080;
+            border-bottom: 1px solid #808080;
+            padding: 4px 8px;
+            margin: -8px -10px 8px -10px;
+        }
+
+        .block p {
+            margin-bottom: 6px;
+        }
+
+        .caption {
+            font-size: 11px;
+            font-style: italic;
+            color: #404040;
+            margin-top: 6px;
+        }
+
+        /* ===== Таблицы ===== */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 11px;
+            margin-top: 4px;
+        }
+
+        th, td {
+            border: 1px solid #808080;
+            padding: 4px 6px;
+            vertical-align: top;
+            text-align: left;
+        }
+
+        th {
+            background-color: #C0C0C0;
+            font-weight: bold;
+            color: #000080;
+        }
+
+        td.num {
+            text-align: center;
+            width: 36px;
+            background-color: #C0C0C0;
+        }
+
+        /* ===== Пиксельные значки ===== */
+        .pixel-icon {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            background-color: #000080;
+            color: #FFFF00;
+            font-size: 10px;
+            font-weight: bold;
+            text-align: center;
+            line-height: 14px;
+            border-top: 1px solid #FFFFFF;
+            border-left: 1px solid #FFFFFF;
+            border-right: 1px solid #404040;
+            border-bottom: 1px solid #404040;
+            margin-right: 5px;
+            vertical-align: middle;
+        }
+
+        /* ===== Кнопки Windows ===== */
+        .btn {
+            display: inline-block;
+            font-family: Tahoma, Verdana, sans-serif;
+            font-size: 12px;
+            padding: 4px 18px;
+            background: linear-gradient(to bottom, #FFFFFF 0%, #F0F0F0 45%, #C0C0C0 100%);
+            border-top: 2px solid #FFFFFF;
+            border-left: 2px solid #FFFFFF;
+            border-right: 2px solid #404040;
+            border-bottom: 2px solid #404040;
+            color: #000000;
+            text-decoration: none;
+            cursor: pointer;
+            margin-top: 8px;
+        }
+
+        .btn:active {
+            border-top: 2px solid #404040;
+            border-left: 2px solid #404040;
+            border-right: 2px solid #FFFFFF;
+            border-bottom: 2px solid #FFFFFF;
+            background: linear-gradient(to bottom, #C0C0C0 0%, #F0F0F0 55%, #FFFFFF 100%);
+            padding: 5px 17px 3px 19px;
+        }
+
+        .btn:focus {
+            outline: 1px dotted #000000;
+            outline-offset: -5px;
+        }
+
+        /* ===== Гостевая книга / история студента ===== */
+        .guestbook {
+            background-color: #FFFFFF;
+            border-top: 2px solid #404040;
+            border-left: 2px solid #404040;
+            border-right: 2px solid #FFFFFF;
+            border-bottom: 2px solid #FFFFFF;
+            padding: 8px 10px;
+            font-size: 11px;
+            font-family: Verdana, Tahoma, sans-serif;
+        }
+
+        .guestbook .gb-head {
+            background-color: #C0C0C0;
+            border: 1px solid #808080;
+            padding: 2px 6px;
+            font-size: 10px;
+            color: #000080;
+            font-weight: bold;
+            margin: -8px -10px 6px -10px;
+        }
+
+        .guestbook .author {
+            font-size: 10px;
+            color: #404040;
+            text-align: right;
+            margin-top: 6px;
+            font-style: italic;
+        }
+
+        /* ===== Форма записи ===== */
+        .form-row {
+            margin-top: 6px;
+        }
+
+        .form-row label {
+            display: inline-block;
+            width: 110px;
+            font-size: 11px;
+            font-weight: bold;
+            color: #000080;
+        }
+
+        .form-row input {
+            font-family: Tahoma, sans-serif;
+            font-size: 12px;
+            background-color: #FFFFFF;
+            border-top: 2px solid #404040;
+            border-left: 2px solid #404040;
+            border-right: 2px solid #FFFFFF;
+            border-bottom: 2px solid #FFFFFF;
+            padding: 2px 4px;
+            width: 220px;
+        }
+
+        .fineprint {
+            font-size: 10px;
+            color: #404040;
+            margin-top: 8px;
+            border-top: 1px dotted #A0A0A0;
+            padding-top: 6px;
+        }
+
+        /* ===== Скриншот IDLE ===== */
+        .figure {
+            margin-top: 8px;
+            background-color: #FFFFFF;
+            border-top: 2px solid #404040;
+            border-left: 2px solid #404040;
+            border-right: 2px solid #FFFFFF;
+            border-bottom: 2px solid #FFFFFF;
+            padding: 4px;
+            text-align: center;
+        }
+
+        .figure img {
+            width: 100%;
+            max-width: 512px;
+            display: inline-block;
+        }
+
+        .figure .fig-caption {
+            font-size: 10px;
+            color: #404040;
+            font-style: italic;
+            margin-top: 4px;
+        }
+
+        /* ===== Подвал ===== */
+        .footer {
+            background-color: #C0C0C0;
+            border-top: 2px inset #FFFFFF;
+            padding: 8px 12px;
+            font-size: 10px;
+            color: #404040;
+            text-align: center;
+        }
+
+        .footer a {
+            color: #000080;
+        }
+
+        .footer .badges {
+            margin-top: 6px;
+        }
+
+        .footer .badge {
+            display: inline-block;
+            background-color: #000000;
+            color: #FFFFFF;
+            font-family: 'Courier New', monospace;
+            font-size: 9px;
+            padding: 1px 5px;
+            border-top: 1px solid #808080;
+            border-left: 1px solid #808080;
+            border-right: 1px solid #FFFFFF;
+            border-bottom: 1px solid #FFFFFF;
+            margin: 0 3px;
+        }
+
+        /* ===== Счётчик посещений ===== */
+        .counter {
+            display: inline-block;
+            background-color: #000000;
+            color: #00FF00;
+            font-family: 'Courier New', monospace;
+            font-size: 11px;
+            padding: 2px 6px;
+            border-top: 1px solid #808080;
+            border-left: 1px solid #808080;
+            border-right: 1px solid #FFFFFF;
+            border-bottom: 1px solid #FFFFFF;
+            letter-spacing: 2px;
+        }
+
+        /* ===== Адаптация под узкий экран ===== */
+        @media (max-width: 620px) {
+            .header h1 {
+                font-size: 15px;
+            }
+            .header-top {
+                flex-wrap: wrap;
+            }
+            table {
+                font-size: 10px;
+            }
+            th, td {
+                padding: 3px;
+            }
+            .form-row label {
+                display: block;
+                width: auto;
+            }
+            .form-row input {
+                width: 95%;
+            }
+            .navbar a {
+                margin: 0 4px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="page">
+
+    <!-- ===== Заголовок окна ===== -->
+    <div class="titlebar">
+        PythonWare Training — Курсы Python 2.0 — Microsoft Internet Explorer
+        <span class="tb-buttons"><span>_</span><span>[]</span><span>X</span></span>
+    </div>
+
+    <!-- ===== ШАПКА (blocks/01-hero.md) ===== -->
+    <div class="header">
+        <div class="header-top">
+            <div class="logo-box">
+                <img src="assets/images/python-logo-1990s.png" alt="Python (старый логотип)">
+            </div>
+            <div>
+                <h1>PythonWare: язык для тех, кто хочет делать больше</h1>
+                <div class="subtitle">Курсы Python 2.0. Меньше кода — больше результата.</div>
+            </div>
+        </div>
+        <div class="date-line">Python 2.0 вышел 16 октября 2000 года. Мы учим тому, что действительно работает.</div>
+        <div class="joke">
+            <strong>Мы не про змей.</strong> Мы про язык, который кусается только тогда, когда вы пишете на Perl.
+        </div>
+        <a href="#enroll" class="btn">Записаться на курс</a>
+    </div>
+
+    <!-- ===== Рекламный баннер 468×60 ===== -->
+    <div class="banner-row">
+        <div class="banner468">
+            <div class="b-inner">
+                <div class="b-title">PYTHON 2.0 — НОВЫЙ СТАНДАРТ!</div>
+                <div class="b-sub">Учись за выходные. Делай больше, пиши меньше. Батарейки в комплекте!</div>
+            </div>
+            <div class="b-price">$299</div>
+        </div>
+    </div>
+
+    <!-- ===== Бегущая строка ===== -->
+    <div class="newsbar">
+        <marquee scrollamount="4">*** Новый поток: март 2001 *** Unicode, сборщик мусора, SourceForge — всё, что дала версия 2.0 *** comp.lang.python читает каждый преподаватель *** Мест осталось немного ***
+        </marquee>
+    </div>
+
+    <!-- ===== Навигация ===== -->
+    <div class="navbar">
+        <a href="#why-python">Почему Python</a><span class="sep">|</span>
+        <a href="#program">Программа курса</a><span class="sep">|</span>
+        <a href="#student-story">История студента</a><span class="sep">|</span>
+        <a href="#instructor">Преподаватель</a><span class="sep">|</span>
+        <a href="#enroll">Запись на курс</a>
+    </div>
+
+    <div class="content">
+
+        <!-- ===== БЛОК 02: ПОЧЕМУ PYTHON (blocks/02-why-python.md) ===== -->
+        <div class="block" id="why-python">
+            <h2>Почему Python 2.0 — это шаг вперёд</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width:36px;">№</th>
+                        <th style="width:38%;">Особенность</th>
+                        <th>Что это даёт вам</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="num"><span class="pixel-icon">1</span></td>
+                        <td><strong>Unicode</strong></td>
+                        <td>Python 2.0 впервые поддерживает Unicode. Ваши программы работают с текстом на любом языке.</td>
+                    </tr>
+                    <tr>
+                        <td class="num"><span class="pixel-icon">2</span></td>
+                        <td><strong>Сборщик мусора с обнаружением циклов</strong></td>
+                        <td>Память освобождается автоматически, даже при циклических ссылках. Меньше утечек — больше времени на задачи.</td>
+                    </tr>
+                    <tr>
+                        <td class="num"><span class="pixel-icon">3</span></td>
+                        <td><strong>Открытая разработка на SourceForge</strong></td>
+                        <td>Исходный код, баг-трекер и патчи доступны всем. Сообщество растёт, язык развивается быстрее.</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p class="caption">Python 2.0 вышел 16 октября 2000 года. С тех пор язык стал стандартом для веб-скриптов, системного администрирования и обучения.</p>
+        </div>
+
+        <!-- ===== БЛОК 03: ПРОГРАММА КУРСА (blocks/03-course-program.md) ===== -->
+        <div class="block" id="program">
+            <h2>Программа курса «Python 2.0: от скрипта до приложения»</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width:52px;">Модуль</th>
+                        <th>Тема</th>
+                        <th>Результат</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="num">1</td>
+                        <td>Синтаксис и типы данных</td>
+                        <td>Пишете простые скрипты на Python</td>
+                    </tr>
+                    <tr>
+                        <td class="num">2</td>
+                        <td>Работа с текстом и Unicode</td>
+                        <td>Обрабатываете файлы и строки на любом языке</td>
+                    </tr>
+                    <tr>
+                        <td class="num">3</td>
+                        <td>Модули и стандартная библиотека</td>
+                        <td>Используете «батарейки в комплекте»</td>
+                    </tr>
+                    <tr>
+                        <td class="num">4</td>
+                        <td>Сети и веб (CGI)</td>
+                        <td>Создаёте динамические веб-страницы</td>
+                    </tr>
+                    <tr>
+                        <td class="num">5</td>
+                        <td>Объектно-ориентированное программирование</td>
+                        <td>Проектируете классы и модули</td>
+                    </tr>
+                    <tr>
+                        <td class="num">6</td>
+                        <td>Работа с SourceForge</td>
+                        <td>Участвуете в открытой разработке</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p class="caption">Каждый модуль — практика на реальных задачах. Никакой воды.</p>
+
+            <div class="figure">
+                <img src="assets/images/idle-screenshot.png" alt="IDLE — среда разработки Python">
+                <div class="fig-caption">IDLE — среда разработки, идущая в комплекте с Python. Файл на скриншоте называется swallow.py — и это неспроста.</div>
+            </div>
+        </div>
+
+        <!-- ===== БЛОК 04: ИСТОРИЯ СТУДЕНТА (blocks/04-student-story.md) ===== -->
+        <div class="block" id="student-story">
+            <h2>«Я писал на Perl, пока не попробовал Python»</h2>
+            <div class="guestbook">
+                <div class="gb-head">Запись в гостевой книге: #0147</div>
+                Меня зовут Алексей, я системный администратор. Три года писал скрипты на Perl. Работало, но каждая новая задача превращалась в головоломку. Коллега показал Python. Через неделю я переписал свой главный скрипт — он стал в два раза короче и его можно было читать без комментариев. Сейчас я пишу на Python всё: от бэкапов до веб-форм. Курс PythonWare помог разобраться с Unicode и стандартной библиотекой. Если вы устали от «write-only» кода — попробуйте Python.
+                <div class="author">Алексей, системный администратор, Санкт-Петербург</div>
+            </div>
+        </div>
+
+        <!-- ===== БЛОК 05: ПРЕПОДАВАТЕЛЬ (blocks/05-instructor.md) ===== -->
+        <div class="block" id="instructor">
+            <h2>Ваш преподаватель: Гвидо ван Россум? Нет, но мы учились у его кода.</h2>
+            <p>
+                Наши преподаватели — практикующие разработчики, которые используют Python в ежедневной работе. Они не читают лекции по книжке: каждый модуль основан на реальных задачах из системного администрирования и веб-разработки. Мы следим за обсуждениями в comp.lang.python и используем актуальную документацию Python 2.0.
+            </p>
+            <p>
+                Мы разделяем идею CP4E — «Computer Programming for Everybody»: программирование должно быть доступным каждому, а не избранным. Поэтому объясняем просто: сначала читаем чужой код, потом пишем свой.
+            </p>
+            <p class="caption">PythonWare Training — учебный центр при «секретной лаборатории».</p>
+        </div>
+
+        <!-- ===== БЛОК 06: ЗАПИСЬ НА КУРС (blocks/06-enroll.md) ===== -->
+        <div class="block" id="enroll">
+            <h2>Записаться на курс Python 2.0</h2>
+            <p>
+                Ближайший поток: <strong>март 2001 года</strong>.<br>
+                Формат: 6 недель, два вечера в неделю.<br>
+                Стоимость: <strong>$299</strong> (включая доступ к SourceForge-репозиторию с примерами).<br>
+                Требования: базовое знание командной строки; опыт программирования на любом языке приветствуется, но не обязателен.
+            </p>
+            <form onsubmit="alert('Спасибо! Это демонстрационная страница. Реальная запись недоступна.'); return false;">
+                <div class="form-row">
+                    <label for="f-name">Ваше имя:</label>
+                    <input type="text" id="f-name" name="name">
+                </div>
+                <div class="form-row">
+                    <label for="f-mail">E-mail:</label>
+                    <input type="text" id="f-mail" name="email">
+                </div>
+                <button type="submit" class="btn">Записаться сейчас</button>
+            </form>
+            <p class="fineprint">
+                PythonWare Training не связан с Python Software Foundation. Python — торговая марка PSF. Курсы предназначены для образовательных целей.
+            </p>
+        </div>
+
+    </div>
+
+    <!-- ===== ПОДВАЛ ===== -->
+    <div class="footer">
+        <span>PythonWare Training © 2001</span>
+        &nbsp;|&nbsp;
+        <span>Вы посетитель номер <span class="counter">000123</span></span>
+        &nbsp;|&nbsp;
+        <span>Лучше всего смотрится в Internet Explorer 5.0 при 1024×768</span>
+        <div class="badges">
+            <span class="badge">HTML 4.01</span>
+            <span class="badge">Made with Notepad</span>
+            <span class="badge">SourceForge</span>
+            <span class="badge">batteries included</span>
+        </div>
+        <br>
+        <span style="font-size:9px; color:#606060;">Это учебная работа. Не является реальным рекламным объявлением.</span>
+    </div>
+
+</div>
+
+</body>
+</html>
